@@ -38,10 +38,10 @@ info '##### GROWI backup start. #####'
 cd ${DOCKER_DIR}
 docker-compose stop || abort 'docker-compose stop faild.'
 
-backup 'growi-app-1' "app_data_$(date '+%Y%m%d-%H%M%S').tar" '/data'
-backup 'growi-mongo-1' "mongo_configdb_$(date '+%Y%m%d-%H%M%S').tar" '/data/configdb'
-backup 'growi-mongo-1' "mongo_db_$(date '+%Y%m%d-%H%M%S').tar" '/data/db'
-backup 'growi-elasticsearch-1' "elasticsearch_data_$(date '+%Y%m%d-%H%M%S').tar" '/usr/share/elasticsearch/data'
+backup 'growi_app_1' "app_data_$(date '+%Y%m%d-%H%M%S').tar" '/data'
+backup 'growi_mongo_1' "mongo_configdb_$(date '+%Y%m%d-%H%M%S').tar" '/data/configdb'
+backup 'growi_mongo_1' "mongo_db_$(date '+%Y%m%d-%H%M%S').tar" '/data/db'
+backup 'growi_elasticsearch_1' "elasticsearch_data_$(date '+%Y%m%d-%H%M%S').tar" '/usr/share/elasticsearch/data'
 
 cd ${DOCKER_DIR}
 docker-compose start || abort 'docker-compose start faild.'
