@@ -6,8 +6,12 @@ readonly DOCKER_DIR='/var/opt/github/weseek/growi'
 readonly BACKUP_DIR='/var/opt/backup'
 readonly BACKUP_GEN=7
 
+function info() {
+    logger -s "$(basename $0): $@"
+}
+
 function error() {
-    echo "ERROR: $(basename $0): $@" 1>&2
+    logger -s "$(basename $0): ERROR: $@"
 }
 
 function abort() {
@@ -29,6 +33,8 @@ function remove_old_backup() {
     ls -t ${BACKUP_DIR}/${target} | tail -n+$(expr ${BACKUP_GEN} + 1) | xargs rm -f
 }
 
+info '##### GROWI backup start. #####'
+
 cd ${DOCKER_DIR}
 docker-compose stop || abort 'docker-compose stop faild.'
 
@@ -44,5 +50,7 @@ remove_old_backup 'app_data_*.tar'
 remove_old_backup 'mongo_configdb_*.tar'
 remove_old_backup 'mongo_db_*.tar'
 remove_old_backup 'elasticsearch_data_*.tar'
+
+info '##### GROWI backup completed successfully. #####'
 
 exit 0

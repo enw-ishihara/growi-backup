@@ -5,8 +5,12 @@ COMPOSE_FILE=docker-compose.yml
 readonly DOCKER_DIR='/var/opt/github/weseek/growi'
 readonly BACKUP_DIR='/var/opt/backup'
 
+function info() {
+    logger -s "$(basename $0): $@"
+}
+
 function error() {
-    echo "ERROR: $(basename $0): $@" 1>&2
+    logger -s "$(basename $0): ERROR: $@"
 }
 
 function abort() {
@@ -26,8 +30,10 @@ function restore() {
     read backup_file || abort 'read faild.'
     [ -f ${backup_file} ] || abort "file ${backup_file} not found."
     docker run --rm --volumes-from ${container_name} -v ${BACKUP_DIR}:/var/opt/backup busybox tar xf /var/opt/backup/${backup_file}
-    echo 'Resotore done.'
+    echo "Resotore done. [container: ${container_name}][${backup_file}]"
 }
+
+info '##### GROWI restore start. #####'
 
 cd ${DOCKER_DIR}
 docker-compose down -v || abort 'docker-compose down -v faild.'
@@ -40,5 +46,7 @@ restore 'growi-elasticsearch-1' 'elasticsearch_data_????????-??????.tar'
 
 cd ${DOCKER_DIR}
 docker-compose start || abort 'docker-compose start faild.'
+
+info '##### GROWI restore completed successfully. #####'
 
 exit 0
