@@ -4,7 +4,7 @@ COMPOSE_FILE=docker-compose.yml
 
 readonly DOCKER_DIR='/var/opt/github/weseek/growi'
 readonly BACKUP_DIR='/var/opt/backup'
-readonly BACKUP_GEN=7
+readonly BACKUP_GEN=4
 
 function info() {
     logger -s "$(basename $0): $@"
